@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio | Designer & Developer</title>
+    <meta name="description" content="A modern portfolio showcasing design skills, development expertise, and personal hobbies.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            /* Palette: Dark Modern Theme */
+            --bg-color: #0f1115;
+            --bg-secondary: #181b21;
+            --card-bg: #22262e;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-primary: #6c5ce7; /* Violet */
+            --accent-secondary: #00cec9; /* Teal */
+            --accent-gradient: linear-gradient(135deg, #6c5ce7 0%, #00cec9 100%);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(34, 38, 46, 0.6);
+            
+            /* Spacing */
+            --container-width: 1200px;
+            --header-height: 80px;
+            
+            /* Transitions */
+            --transition-speed: 0.3s;
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-speed) var(--ease);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* --- Utility Classes --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .text-gradient {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) var(--ease);
+            font-family: 'Space Grotesk', sans-serif;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: #fff;
+            box-shadow: 0 10px 20px -10px rgba(108, 92, 231, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -10px rgba(108, 92, 231, 0.7);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* --- Background Elements --- */
+        .bg-blob {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108,92,231,0.15) 0%, rgba(15,17,21,0) 70%);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Navigation --- */
+        .navbar {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 17, 21, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-main);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width var(--transition-speed) var(--ease);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: var(--header-height);
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h2 {
+            font-size: 1.5rem;
+            color: var(--accent-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+        }
+
+        .hero-text p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .img-wrapper {
+            width: 400px;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            transform: rotate(3deg);
+            transition: transform 0.5s ease;
+        }
+
+        .img-wrapper:hover {
+            transform: rotate(0deg);
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-stat-card {
+            position: absolute;
+            background: rgba(30, 34, 42, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .stat-1 { bottom: 40px; left: -30px; }
+        .stat-2 { top: 60px; right: -20px; animation-delay: 2s; }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-secondary);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- Section Titles --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-subtitle {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+        }
+
+        /* --- Skills Section --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition-speed) var(--ease);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-primary);
+            background: #272c36;
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            background: var(--bg-secondary);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin-inline: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skill-name {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .skill-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Hobbies Section (Bento Grid Style) --- */
+        .hobbies-wrapper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 250px);
+            gap: 20px;
+        }
+
+        .hobby-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            group: 'hobby';
+        }
+
+        .hobby-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease);
+        }
+
+        .hobby-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .hobby-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hobby-item:hover .hobby-overlay {
+            opacity: 1;
+        }
+
+        .hobby-item.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .hobby-item.wide {
+            grid-column: span 2;
+        }
+
+        .hobby-title {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            transform: translateY(20px);
+            transition: transform 0.4s var(--ease);
+        }
+
+        .hobby-item:hover .hobby-title {
+            transform: translateY(0);
+        }
+
+        /* --- Contact/Footer --- */
+        .contact-section {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-form-wrapper {
+            flex: 1.5;
+            min-width: 300px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--accent-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--accent-primary);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            color: var(--accent-secondary);
+            font-size: 1.5rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-text p {
+                margin: 0 auto 2.5rem auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .img-wrapper {
+                width: 300px;
+                height: 380px;
+            }
+
+            .hobbies-wrapper {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+            }
+            
+            .hobby-item.large, .hobby-item.wide {
+                grid-column: span 1;
+                grid-row: span 1;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                padding: 30px;
+                gap: 20px;
+                transform: translateY(-150%);
+                transition: transform 0.4s ease;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hobbies-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Decor -->
+    <div class="bg-blob"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Alex<span class="text-gradient">.Design</span></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#hobbies" class="nav-link">Hobbies</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero / Profile Section -->
+    <header id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Hello, I'm Alex</h2>
+                    <h1>Creative <span class="text-gradient">Designer</span> <br>& Front-end Dev</h1>
+                    <p>I craft seamless digital experiences with pixel-perfect design and clean, efficient code. Let's build something amazing together.</p>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn btn-primary">Hire Me <i class="fas fa-arrow-right"></i></a>
+                        <a href="#skills" class="btn btn-outline">View Skills</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="img-wrapper">
+                        <!-- Using a high-quality random seed image as placeholder -->
+                        <img src="https://picsum.photos/seed/alexportfolio/800/1000.jpg" alt="Alex Profile">
+                    </div>
+                    <!-- Floating Stat Cards -->
+                    <div class="hero-stat-card stat-1">
+                        <div class="stat-icon"><i class="fas fa-code"></i></div>
+                        <div>
+                            <span style="display:block; font-weight:700; font-size:1.2rem;">5+ Years</span>
+                            <span style="font-size:0.8rem; color:var(--text-muted);">Experience</span>
+                        </div>
+                    </div>
+                    <div class="hero-stat-card stat-2">
+                        <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div>
+                            <span style="display:block; font-weight:700; font-size:1.2rem;">120+</span>
+                            <span style="font-size:0.8rem; color:var(--text-muted);">Projects</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">My Expertise</span>
+                <h2 class="section-title">Technical <span class="text-gradient">Skills</span></h2>
+            </div>
+            
+            <div class="skills-grid">
+                <!-- Skill 1 -->
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fab fa-html5" style="color: #e34c26;"></i>
+                    </div>
+                    <h3 class="skill-name">HTML & CSS</h3>
+                    <p class="skill-desc">Semantic markup, SCSS, Flexbox, Grid, and responsive layouts.</p>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fab fa-js" style="color: #f7df1e;"></i>
+                    </div>
+                    <h3 class="skill-name">JavaScript</h3>
+                    <p class="skill-desc">ES6+, DOM manipulation, Fetch API, and modern asynchronous patterns.</p>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fab fa-react" style="color: #61dafb;"></i>
+                    </div>
+                    <h3 class="skill-name">React JS</h3>
+                    <p class="skill-desc">Component-based architecture, Hooks, Redux, and Next.js basics.</p>
+                </div>
+
+                <!-- Skill 4 -->
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fab fa-figma" style="color: #f24e1e;"></i>
+                    </div>
+                    <h3 class="skill-name">UI/UX Design</h3>
+                    <p class="skill-desc">Prototyping, wireframing, design systems, and user research in Figma.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hobbies Section (Bento Grid) -->
+    <section id="hobbies" class="section-padding" style="background-color: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Beyond Code</span>
+                <h2 class="section-title">Personal <span class="text-gradient">Hobbies</span></h2>
+            </div>
+
+            <div class="hobbies-wrapper">
+                <!-- Large Item -->
+                <div class="hobby-item large">
+                    <img src="https://picsum.photos/seed/photography/600/800.jpg" alt="Photography">
+                    <div class="hobby-overlay">
+                        <h3 class="hobby-title">Street Photography</h3>
+                        <p style="color: #ddd; font-size: 0.9rem;">Capturing urban life and light.</p>
+                    </div>
+                </div>
+
+                <!-- Wide Item -->
+                <div class="hobby-item wide">
+                    <img src="https://picsum.photos/seed/gaming/600/400.jpg" alt="Gaming">
+                    <div class="hobby-overlay">
+                        <h3 class="hobby-title">Gaming</h3>
+                        <p style="color: #ddd; font-size: 0.9rem;">RPGs and strategy games.</p>
+                    </div>
+                </div>
+
+                <!-- Standard Item -->
+                <div class="hobby-item">
+                    <img src="https://picsum.photos/seed/travel/300/300.jpg" alt="Travel">
+                    <div class="hobby-overlay">
+                        <h3 class="hobby-title">Travel</h3>
+                    </div>
+                </div>
+
+                <!-- Standard Item -->
+                <div class="hobby-item">
+                    <img src="https://picsum.photos/seed/music/300/300.jpg" alt="Music">
+                    <div class="hobby-overlay">
+                        <h3 class="hobby-title">Music</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Get In Touch</span>
+                <h2 class="section-title">Let's Work <span class="text-gradient">Together</span></h2>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3 style="margin-bottom: 20px;">Contact Information</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 40px;">
+                        I'm currently available for freelance work and open to full-time opportunities. Drop me a line!
+                    </p>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email Me</h4>
+                            <p style="color: var(--text-muted);">hello@alexdesign.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Location</h4>
+                            <p style="color: var(--text-muted);">San Francisco, CA</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px;">
+                        <h4 style="margin-bottom: 15px;">Follow Me</h4>
+                        <div style="display: flex; gap: 15px;">
+                            <a href="#" class="btn btn-outline" style="padding: 10px 15px; border-radius: 10px;"><i class="fab fa-github"></i></a>
+                            <a href="#" class="btn btn-outline" style="padding: 10px 15px; border-radius: 10px;"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-outline" style="padding: 10px 15px; border-radius: 10px;"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" rows="5" class="form-control" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Alex Design. Built for GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <div>
+            <h4 style="font-size: 1rem; margin-bottom: 2px;">Message Sent!</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">I'll get back to you shortly.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Mobile Menu Toggle
+            const menuToggle = document.getElementById('mobile-menu');
+            const navLinks = document.getElementById('nav-links');
+            const icon = menuToggle.querySelector('i');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                // Toggle icon between bars and times (X)
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // 2. Active Link Highlighting on Scroll
+            const sections = document.querySelectorAll('section, header');
+            const navItems = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                const scrollY = window.scrollY;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Adjust offset for header height
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navItems.forEach(li => {
+                    li.classList.remove('active');
+                    if (li.getAttribute('href').includes(current)) {
+                        li.classList.add('active');
+                    }
+                });
+            });
+
+            // 3. Form Handling (Mock Submission)
+            const contactForm = document.getElementById('contactForm');
+            const toast = document.getElementById('toast');
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Simulate sending delay
+                const submitBtn = contactForm.querySelector('button');
+                const originalText = submitBtn.innerText;
+                submitBtn.innerText = 'Sending...';
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    // Show toast
+                    toast.classList.add('show');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    submitBtn.innerText = originalText;
+                    submitBtn.disabled = false;
+
+                    // Hide toast after 3 seconds
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 4000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
